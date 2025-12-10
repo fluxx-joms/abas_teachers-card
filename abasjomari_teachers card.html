@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teachers' Day Message Card</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: auto;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .card-wrapper {
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card-container {
+      width: 100%;
+      max-width: 600px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-10%, -10%); }
+    }
+
+    .decorative-hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: float-up 4s ease-in infinite;
+    }
+
+    .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .heart:nth-child(2) { left: 30%; animation-delay: 1s; }
+    .heart:nth-child(3) { left: 50%; animation-delay: 2s; }
+    .heart:nth-child(4) { left: 70%; animation-delay: 0.5s; }
+    .heart:nth-child(5) { left: 90%; animation-delay: 1.5s; }
+
+    @keyframes float-up {
+      0% {
+        bottom: -10%;
+        opacity: 0;
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateY(-20px) rotate(360deg);
+      }
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .icon-container {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .greeting {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .teacher-name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .message {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .closing {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .signature {
+      font-size: 1.3rem;
+      font-weight: 600;
+      font-style: italic;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sparkle-button {
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sparkle-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .sparkle-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .sparkle-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .sparkle-button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(100%) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="card-wrapper">
+   <div class="card-container">
+    <div class="decorative-hearts">
+     <div class="heart">
+      ❤️
+     </div>
+     <div class="heart">
+      📚
+     </div>
+     <div class="heart">
+      ✨
+     </div>
+     <div class="heart">
+      🌟
+     </div>
+     <div class="heart">
+      💐
+     </div>
+    </div>
+    <div class="card-content">
+     <div class="icon-container">
+      📖✨🍎
+     </div>
+     <h1 class="greeting" id="greeting">Happy Teachers' Day!</h1>
+     <h2 class="teacher-name" id="teacherName">Dear Teacher</h2>
+     <p class="message" id="message">Thank you for being an incredible teacher and mentor. Your dedication, patience, and wisdom have made a lasting impact on my life. You inspire me to learn, grow, and reach for my dreams every day.</p>
+     <p class="closing" id="closing">With gratitude and respect,</p>
+     <p class="signature" id="signature">Your Student</p><button class="sparkle-button" id="celebrateBtn"> <span>🎉 Celebrate 🎉</span> </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_greeting: "Happy Teachers' Day!",
+      teacher_name: "Dear Ma'am Daisy Jean",
+      message_text: "Thank you for being an incredible teacher and mentor. Your dedication, patience, and wisdom have made a lasting impact on my life. You inspire me to learn, grow, and reach for my dreams every day.",
+      closing_text: "With gratitude and respect,",
+      student_name: "Your Student",
+      primary_color: "#667eea",
+      secondary_color: "#764ba2",
+      background_color: "#ffffff",
+      text_color: "#333333",
+      accent_color: "#f59e0b",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      const fontFamily = `${customFont}, ${baseFontStack}`;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+
+      document.body.style.fontFamily = fontFamily;
+
+      document.getElementById('greeting').textContent = config.main_greeting || defaultConfig.main_greeting;
+      document.getElementById('greeting').style.fontSize = `${baseSize * 2}px`;
+      document.getElementById('greeting').style.color = textColor;
+      document.getElementById('greeting').style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      document.getElementById('greeting').style.webkitBackgroundClip = 'text';
+      document.getElementById('greeting').style.webkitTextFillColor = 'transparent';
+      document.getElementById('greeting').style.backgroundClip = 'text';
+
+      document.getElementById('teacherName').textContent = config.teacher_name || defaultConfig.teacher_name;
+      document.getElementById('teacherName').style.fontSize = `${baseSize * 1.8}px`;
+      document.getElementById('teacherName').style.color = textColor;
+
+      document.getElementById('message').textContent = config.message_text || defaultConfig.message_text;
+      document.getElementById('message').style.fontSize = `${baseSize * 1.1}px`;
+      document.getElementById('message').style.color = textColor;
+      document.getElementById('message').style.background = `linear-gradient(135deg, ${primaryColor}1A 0%, ${secondaryColor}1A 100%)`;
+      document.getElementById('message').style.borderLeftColor = primaryColor;
+
+      document.getElementById('closing').textContent = config.closing_text || defaultConfig.closing_text;
+      document.getElementById('closing').style.fontSize = `${baseSize * 1.2}px`;
+      document.getElementById('closing').style.color = textColor;
+
+      document.getElementById('signature').textContent = config.student_name || defaultConfig.student_name;
+      document.getElementById('signature').style.fontSize = `${baseSize * 1.3}px`;
+      document.getElementById('signature').style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      document.getElementById('signature').style.webkitBackgroundClip = 'text';
+      document.getElementById('signature').style.webkitTextFillColor = 'transparent';
+      document.getElementById('signature').style.backgroundClip = 'text';
+
+      const cardContainer = document.querySelector('.card-container');
+      cardContainer.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+
+      const cardContent = document.querySelector('.card-content');
+      cardContent.style.background = `${backgroundColor}F2`;
+
+      const button = document.getElementById('celebrateBtn');
+      button.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      button.style.fontSize = `${baseSize}px`;
+      button.style.color = backgroundColor;
+    }
+
+    function createConfetti() {
+      const colors = ['#667eea', '#764ba2', '#f59e0b', '#ef4444', '#10b981', '#3b82f6'];
+      const shapes = ['circle', 'square'];
+      
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)] === 'circle' ? '50%' : '0';
+          confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s linear forwards`;
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.remove(), 4000);
+        }, i * 30);
+      }
+    }
+
+    document.getElementById('celebrateBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      createConfetti();
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_greeting', config.main_greeting || defaultConfig.main_greeting],
+          ['teacher_name', config.teacher_name || defaultConfig.teacher_name],
+          ['message_text', config.message_text || defaultConfig.message_text],
+          ['closing_text', config.closing_text || defaultConfig.closing_text],
+          ['student_name', config.student_name || defaultConfig.student_name]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ab877c090c4bc43',t:'MTc2NTMyNDg4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
